@@ -1,20 +1,28 @@
+;MSX0 (Z80 アセンブラ) 
+;1回のADD命令にかかる実行時間の測定
+;Test MSX0 (Z80 ASM) 
+;Measurement of execution time required for one ADD instruction
+;
+;2023/07/23  MIN0
  
     org 0100h  
   
 
 	call	print_mes
 
+
+
 ;TEST1 ADD
 
 	ld	iy,ADD_START_TIME
 	call	get_time
 
-;loop count 10000
+;loop count 10000*1000
 	scf				; C <- 1
 	ccf				; C <- _C
 	ld	de,1
 	ld	hl,10000
-	ld	ix,100
+	ld	ix,1000
 loop1:
 	ld	a,2
 	ld	b,3
@@ -41,12 +49,12 @@ loop1:
 	ld	iy,ADDADD_START_TIME
 	call	get_time
 
-;loop count 10000
+;loop count 10000*1000
 	scf				; C <- 1
 	ccf				; C <- _C
 	ld	de,1
 	ld	hl,10000
-	ld	ix,100
+	ld	ix,1000
 loop2:
 	ld	a,2
 	ld	b,3
@@ -161,16 +169,13 @@ print_times:
 	ld	c,a
 	ld	a,b
 pt3:
-	sub	10
-	jr	z,pt1
+	cp	10
 	jr	c,pt2
 	inc	c
-	jr	pt3
-	
-pt2:
-	add	a,10
+	sub	10
 	ld	b,a
-pt1:
+	jr	pt3
+pt2:
 	ld	a,b
 	add	a,30h
 	ld	b,a
